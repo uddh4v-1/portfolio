@@ -17,15 +17,15 @@ const GAP = 2;
 
 function getCardW() {
   const w = window.innerWidth;
-  if (w < 480) return 180;
-  if (w < 768) return 220;
+  if (w < 480) return 130;
+  if (w < 768) return 180;
   return 300;
 }
 
 function getCardH() {
   const w = window.innerWidth;
-  if (w < 480) return 270;
-  if (w < 768) return 330;
+  if (w < 480) return 195;
+  if (w < 768) return 270;
   return 450;
 }
 
@@ -147,8 +147,8 @@ export default function AboutHero() {
               ref={(el) => { cardsRef.current[i] = el; }}
               className="shrink-0 rounded-2xl overflow-hidden shadow-lg border-2 border-white dark:border-white/10"
               style={{
-                width:       300,
-                height:      450,
+                width:       130,
+                height:      195,
                 marginLeft:  GAP / 2,
                 marginRight: GAP / 2,
                 willChange:  'transform',
