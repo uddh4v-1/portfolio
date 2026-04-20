@@ -4,11 +4,9 @@ import Footer from '../components/portfolio/Footer';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background text-foreground">
       <NavToggle />
-      <div className="max-w-5xl mx-auto">
-        <Outlet />
-      </div>
+      <Outlet />
       <Footer />
     </div>
   );

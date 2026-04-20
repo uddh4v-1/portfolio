@@ -31,21 +31,21 @@ const posts = [
 export default function PostsSection() {
   return (
     <section className="py-12 px-6 max-w-5xl mx-auto">
-      <h2 className="text-2xl font-semibold text-gray-900 mb-8">Posts</h2>
-      <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+      <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-8">Posts</h2>
+      <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide -mx-6 px-6 sm:mx-0 sm:px-0">
         {posts.map((post, i) => (
           <div
             key={i}
-            className="flex-shrink-0 w-56 rounded-2xl overflow-hidden border border-gray-100 bg-white hover:shadow-md transition-shadow"
+            className="shrink-0 w-44 sm:w-56 rounded-2xl overflow-hidden border border-gray-100 dark:border-white/10 bg-white dark:bg-white/5 hover:shadow-md dark:hover:shadow-black/30 transition-shadow"
           >
-            <div className="aspect-square overflow-hidden bg-gray-50">
+            <div className="aspect-square overflow-hidden bg-gray-50 dark:bg-white/5">
               <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
             </div>
             <div className="p-4">
-              <p className="text-xs font-medium text-gray-800 leading-snug mb-2">{post.title}</p>
+              <p className="text-xs font-medium text-gray-800 dark:text-gray-200 leading-snug mb-2">{post.title}</p>
               <div className="flex flex-wrap gap-1">
                 {post.tags.map((tag) => (
-                  <span key={tag} className="text-[10px] text-gray-400">
+                  <span key={tag} className="text-[10px] text-gray-400 dark:text-gray-500">
                     {tag}
                   </span>
                 ))}

@@ -51,26 +51,26 @@ const projects = [
 export default function ProjectsSection() {
   return (
     <section className="py-12 px-6 max-w-5xl mx-auto">
-      <h2 className="text-2xl font-semibold text-gray-900 mb-2">Selected work</h2>
-      <p className="text-sm text-gray-400 mb-8">Projects crafted to solve real problems</p>
+      <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">Selected work</h2>
+      <p className="text-sm text-gray-400 dark:text-gray-500 mb-8">Projects crafted to solve real problems</p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {projects.map((project, i) => (
           <div
             key={i}
-            className={`group cursor-pointer rounded-2xl overflow-hidden border border-gray-100 hover:border-gray-200 transition-all duration-300 hover:shadow-lg ${
+            className={`group cursor-pointer rounded-2xl overflow-hidden border border-gray-100 dark:border-white/10 hover:border-gray-200 dark:hover:border-white/20 transition-all duration-300 hover:shadow-lg dark:hover:shadow-black/30 ${
               project.span === 'full' ? 'md:col-span-2' : ''
             }`}
           >
             {/* Image */}
-            <div className="relative overflow-hidden bg-gray-50" style={{ aspectRatio: project.span === 'full' ? '16/7' : '4/3' }}>
+            <div className="relative overflow-hidden bg-gray-50 dark:bg-white/5" style={{ aspectRatio: project.span === 'full' ? '16/7' : '4/3' }}>
               <img
                 src={project.image}
                 alt={project.title}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
               {project.award && (
-                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm text-xs font-medium text-gray-700 px-3 py-1 rounded-full border border-gray-200">
+                <div className="absolute top-4 left-4 bg-white/90 dark:bg-black/70 backdrop-blur-sm text-xs font-medium text-gray-700 dark:text-gray-200 px-3 py-1 rounded-full border border-gray-200 dark:border-white/10">
                   🏆 {project.award}
                 </div>
               )}
@@ -78,16 +78,16 @@ export default function ProjectsSection() {
 
             {/* Text */}
             <div className="p-5">
-              <h3 className="text-sm font-semibold text-gray-900 mb-1 group-hover:text-gray-700 transition-colors">
+              <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
                 {project.title}
               </h3>
               {project.subtitle && (
-                <p className="text-xs text-gray-500 leading-relaxed mb-3">{project.subtitle}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed mb-3">{project.subtitle}</p>
               )}
               {project.tags.length > 0 && (
                 <div className="flex flex-wrap gap-1.5 mt-2">
                   {project.tags.map((tag) => (
-                    <span key={tag} className="text-xs text-gray-500 bg-gray-100 px-2.5 py-0.5 rounded-full">
+                    <span key={tag} className="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-white/10 px-2.5 py-0.5 rounded-full">
                       {tag}
                     </span>
                   ))}

@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import HeroSection from "./HeroSection";
 import ToolStack from "./ToolStack";
-
+import ExperienceSection from "./ExperienceSection";
 import PluginsSection from "./PluginsSection";
-import ProjectsSection from "./ProjectSection";
+// import ProjectsSection from "./ProjectSection";
 
 type WorkViewProps = {
   activeTab?: 'work' | 'plugins';
@@ -21,7 +21,8 @@ export default function WorkView({ activeTab = 'work' }: WorkViewProps) {
         <>
           <HeroSection />
           <ToolStack />
-          <ProjectsSection />
+          <ExperienceSection />
+          {/* <ProjectsSection /> */}
         </>
       )}
       {activeTab === 'plugins' && (

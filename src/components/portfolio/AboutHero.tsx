@@ -1,144 +1,170 @@
-import { useState } from "react";
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
+import { personal } from "../../constants/personal";
 
-// Fan of photos — replicate the screenshot layout
 const photos = [
-  {
-    src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=600&fit=crop",
-    rotate: -35,
-    x: -420,
-    y: 40,
-    scale: 0.82,
-  },
-  {
-    src: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=600&fit=crop",
-    rotate: -20,
-    x: -260,
-    y: 10,
-    scale: 0.9,
-  },
-  {
-    src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=600&fit=crop",
-    rotate: -8,
-    x: -110,
-    y: 0,
-    scale: 0.95,
-  },
-  {
-    src: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=600&fit=crop",
-    rotate: 4,
-    x: 50,
-    y: 5,
-    scale: 0.95,
-  },
-  {
-    src: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=600&fit=crop",
-    rotate: 16,
-    x: 210,
-    y: 10,
-    scale: 0.9,
-  },
-  {
-    src: "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=400&h=600&fit=crop",
-    rotate: 28,
-    x: 360,
-    y: 30,
-    scale: 0.84,
-  },
-  {
-    src: "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400&h=600&fit=crop",
-    rotate: 40,
-    x: 490,
-    y: 55,
-    scale: 0.78,
-  },
+  "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=600&fit=crop",
+  "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=600&fit=crop",
+  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=600&fit=crop",
+  "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=600&fit=crop",
+  "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=600&fit=crop",
+  "https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=400&h=600&fit=crop",
+  "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400&h=600&fit=crop",
 ];
 
+const repeated = [...photos, ...photos, ...photos];
+const GAP = 2;
+
+function getCardW() {
+  const w = window.innerWidth;
+  if (w < 480) return 180;
+  if (w < 768) return 220;
+  return 300;
+}
+
+function getCardH() {
+  const w = window.innerWidth;
+  if (w < 480) return 270;
+  if (w < 768) return 330;
+  return 450;
+}
+
 export default function AboutHero() {
-  const [hovered, setHovered] = useState<number | null>(null);
+  const stripRef  = useRef<HTMLDivElement>(null);
+  const cardsRef  = useRef<(HTMLDivElement | null)[]>([]);
+  const tx        = useRef(0);
+  const dragging  = useRef(false);
+  const lastX     = useRef(0);
+  const rafRef    = useRef<number | undefined>(undefined);
+  const cardWRef  = useRef(200);
+  const cardHRef  = useRef(300);
+
+  useEffect(() => {
+    const updateSize = () => {
+      const cw = getCardW();
+      const ch = getCardH();
+      cardWRef.current = cw;
+      cardHRef.current = ch;
+      // update each card's inline size
+      cardsRef.current.forEach(c => {
+        if (!c) return;
+        c.style.width  = `${cw}px`;
+        c.style.height = `${ch}px`;
+      });
+      // reset loop position
+      tx.current = -(photos.length * (cw + GAP));
+    };
+
+    updateSize();
+    window.addEventListener('resize', updateSize);
+
+    const loop = () => {
+      const stride = cardWRef.current + GAP;
+      const loopW  = photos.length * stride;
+
+      if (!dragging.current) tx.current -= 0.6;
+      if (tx.current <= -loopW * 2) tx.current += loopW;
+      if (tx.current >= 0)          tx.current -= loopW;
+
+      if (stripRef.current) {
+        stripRef.current.style.transform = `translateX(${tx.current}px)`;
+      }
+
+      const midX  = window.innerWidth / 2;
+      const rects = cardsRef.current.map(c => c?.getBoundingClientRect() ?? null);
+      rects.forEach((rect, i) => {
+        const card = cardsRef.current[i];
+        if (!card || !rect) return;
+        const cardMid = rect.left + rect.width / 2;
+        const t       = (cardMid - midX) / midX;
+        const clampedT = Math.max(-1.5, Math.min(1.5, t));
+        const absT    = Math.abs(clampedT);
+        const scale   = 1.05 - absT * 0.3;
+        const rotateY = -clampedT * 42;
+        card.style.transform = `perspective(900px) rotateY(${rotateY.toFixed(1)}deg) scale(${scale.toFixed(3)})`;
+      });
+
+      rafRef.current = requestAnimationFrame(loop);
+    };
+
+    rafRef.current = requestAnimationFrame(loop);
+    return () => {
+      window.removeEventListener('resize', updateSize);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, []);
+
+  const onMouseDown = (e: React.MouseEvent) => { dragging.current = true; lastX.current = e.clientX; };
+  const onMouseMove = (e: React.MouseEvent) => {
+    if (!dragging.current) return;
+    tx.current += e.clientX - lastX.current;
+    lastX.current = e.clientX;
+  };
+  const onMouseUp = () => { dragging.current = false; };
+
+  const onTouchStart = (e: React.TouchEvent) => { dragging.current = true; lastX.current = e.touches[0].clientX; };
+  const onTouchMove  = (e: React.TouchEvent) => {
+    if (!dragging.current) return;
+    tx.current += e.touches[0].clientX - lastX.current;
+    lastX.current = e.touches[0].clientX;
+  };
+  const onTouchEnd = () => { dragging.current = false; };
 
   return (
-    <section
-      className="relative flex flex-col items-center pt-32 pb-0 overflow-hidden"
-      style={{ minHeight: "100vh" }}
-    >
-      {/* Heading */}
+    <section className="relative flex flex-col items-center pt-16 md:pt-28 pb-8 md:pb-16 min-h-screen">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-center z-10 mb-16 px-6"
+        className="text-center z-10 mb-10 md:mb-14 px-6"
       >
-        <h1 className="text-4xl md:text-5xl font-semibold text-gray-900 tracking-tight mb-3">
-          Hello, I'm Nishant
+        <h1 className="text-3xl md:text-5xl font-semibold text-gray-900 dark:text-white tracking-tight mb-3">
+          Hello, I'm {personal.firstName}
         </h1>
-        <p className="text-base text-gray-500">
-          A product designer crafting{" "}
-          <span className="text-orange-500 font-medium">human-first</span>{" "}
-          experiences.
+        <p className="text-sm md:text-base text-gray-500 dark:text-gray-400">
+          {personal.aboutTagline.split('makes things work').map((part, i) =>
+            i === 0
+              ? <span key={i}>{part}<span style={{ color: '#f97316' }}>makes things work</span></span>
+              : <span key={i}>{part}</span>
+          )}
         </p>
       </motion.div>
 
-      {/* Photo Fan - Desktop */}
       <div
-        className="relative w-full hidden md:flex items-end justify-center"
-        style={{ height: 420, marginTop: -20 }}
+        className="w-full cursor-grab active:cursor-grabbing select-none py-8 md:py-16 overflow-hidden"
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMove}
+        onMouseUp={onMouseUp}
+        onMouseLeave={onMouseUp}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
       >
-        {photos.map((photo, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, y: 80, rotate: photo.rotate }}
-            animate={{ opacity: 1, y: 0, rotate: photo.rotate }}
-            transition={{
-              duration: 0.7,
-              delay: i * 0.07,
-              ease: [0.16, 1, 0.3, 1],
-            }}
-            whileHover={{ scale: 1.06, zIndex: 20, rotate: photo.rotate * 0.5 }}
-            onMouseEnter={() => setHovered(i)}
-            onMouseLeave={() => setHovered(null)}
-            style={{
-              position: "absolute",
-              left: "50%",
-              bottom: 0,
-              width: 160,
-              height: 240,
-              marginLeft: photo.x - 80,
-              transform: `rotate(${photo.rotate}deg) scale(${photo.scale})`,
-              transformOrigin: "bottom center",
-              zIndex: hovered === i ? 20 : i,
-              cursor: "pointer",
-            }}
-            className="rounded-2xl overflow-hidden shadow-lg border-2 border-white"
-          >
-            <img
-              src={photo.src}
-              alt={`Photo ${i + 1}`}
-              className="w-full h-full object-cover"
-              draggable={false}
-            />
-          </motion.div>
-        ))}
+        <div ref={stripRef} className="flex" style={{ willChange: 'transform' }}>
+          {repeated.map((src, i) => (
+            <div
+              key={i}
+              ref={(el) => { cardsRef.current[i] = el; }}
+              className="shrink-0 rounded-2xl overflow-hidden shadow-lg border-2 border-white dark:border-white/10"
+              style={{
+                width:       300,
+                height:      450,
+                marginLeft:  GAP / 2,
+                marginRight: GAP / 2,
+                willChange:  'transform',
+              }}
+            >
+              <img
+                src={src}
+                alt={`Photo ${(i % photos.length) + 1}`}
+                className="w-full h-full object-cover pointer-events-none"
+                draggable={false}
+              />
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Photo Strip - Mobile */}
-      <div className="flex md:hidden gap-3 px-4 overflow-x-auto pb-4 w-full mt-4">
-        {photos.map((photo, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: i * 0.06 }}
-            className="flex-shrink-0 w-32 h-48 rounded-2xl overflow-hidden shadow-md border-2 border-white"
-          >
-            <img
-              src={photo.src}
-              alt={`Photo ${i + 1}`}
-              className="w-full h-full object-cover"
-            />
-          </motion.div>
-        ))}
-      </div>
     </section>
   );
 }
