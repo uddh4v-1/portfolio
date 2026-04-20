@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router';
-import { Menu, X, Sun, Moon, ExternalLink, Share2, Check } from 'lucide-react';
+import { Menu, X, Sun, Moon } from 'lucide-react';
 import Avatar3D from './Avatar3D';
-import { personal } from '../../constants/personal';
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
