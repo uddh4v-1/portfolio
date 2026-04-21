@@ -1,50 +1,4 @@
-const projects = [
-  {
-    title: 'Simplifying reimbursement for policyholders',
-    subtitle: null,
-    description: null,
-    tags: [],
-    image: 'https://media.base44.com/images/public/69e4d6fd3247f4b649ed641e/96604794f_generated_f7162381.png',
-    award: null,
-    span: 'half',
-  },
-  {
-    title: 'AI Driven Diabetes Care',
-    subtitle: 'Crafting a supportive system to help individuals significantly reduce and manage their diabetes effectively',
-    description: null,
-    tags: ['Monitoring', 'Tracking', 'Health Care', 'Insights', 'HbA1c Levels', 'AI Integration'],
-    image: 'https://media.base44.com/images/public/69e4d6fd3247f4b649ed641e/1d88c215d_generated_58517dd1.png',
-    award: null,
-    span: 'half',
-  },
-  {
-    title: 'A self-initiated exploration into EV service design',
-    subtitle: null,
-    description: null,
-    tags: [],
-    image: 'https://media.base44.com/images/public/69e4d6fd3247f4b649ed641e/2afcebd00_generated_b4820087.png',
-    award: null,
-    span: 'half',
-  },
-  {
-    title: 'A self-initiated library app to boost discovery and usage',
-    subtitle: null,
-    description: null,
-    tags: [],
-    image: 'https://media.base44.com/images/public/69e4d6fd3247f4b649ed641e/00a595568_generated_f803e47c.png',
-    award: null,
-    span: 'half',
-  },
-  {
-    title: 'Voice Configurator for AI Voice Agent',
-    subtitle: 'Powering faster, smarter conversations',
-    description: null,
-    tags: ['Chips'],
-    image: 'https://media.base44.com/images/public/69e4d6fd3247f4b649ed641e/4cd8a0d29_generated_aa98d183.png',
-    award: 'SHarp sharK award',
-    span: 'full',
-  },
-];
+import { projects } from '../../constants/projects';
 
 export default function ProjectsSection() {
   return (
@@ -60,7 +14,6 @@ export default function ProjectsSection() {
               project.span === 'full' ? 'sm:col-span-2' : ''
             }`}
           >
-            {/* Image */}
             <div className="relative overflow-hidden bg-gray-50 dark:bg-white/5" style={{ aspectRatio: project.span === 'full' ? '16/7' : '4/3' }}>
               <img
                 src={project.image}
@@ -73,8 +26,6 @@ export default function ProjectsSection() {
                 </div>
               )}
             </div>
-
-            {/* Text */}
             <div className="p-5">
               <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1 group-hover:text-gray-700 dark:group-hover:text-gray-300 transition-colors">
                 {project.title}

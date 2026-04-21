@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router';
 import { Menu, X, Sun, Moon } from 'lucide-react';
 import Avatar3D from './Avatar3D';
+import { toast } from 'sonner';
+import { resumeQuips } from '../../constants/navigation';
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
@@ -14,6 +16,11 @@ export default function NavToggle() {
   const location = useLocation();
   const isOnAbout = location.pathname === '/about';
   const [mobileOpen, setMobileOpen] = useState(false);
+  const handleResume = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const { title, description } = resumeQuips[Math.floor(Math.random() * resumeQuips.length)];
+    toast(title, { description });
+  };
 
   const [dark, setDark] = useState(() => {
     const stored = localStorage.getItem('theme');
@@ -33,12 +40,13 @@ export default function NavToggle() {
 
         <div className="hidden md:flex items-center gap-1">
           {isOnAbout ? (
-            <NavLink to="/work" className={navLinkClass} style={({ isActive }) => isActive ? { color: 'var(--brand)' } : {}}>Home</NavLink>
+            <NavLink to="/" className={navLinkClass} style={({ isActive }) => isActive ? { color: 'var(--brand)' } : {}}>Home</NavLink>
           ) : (
             <NavLink to="/about" className={navLinkClass} style={({ isActive }) => isActive ? { color: 'var(--brand)' } : {}}>About me</NavLink>
           )}
           <a
             href="#"
+            onClick={handleResume}
             className="px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-400 dark:hover:text-white dark:hover:bg-white/10 rounded-lg transition-colors"
           >
             Resume
@@ -69,14 +77,14 @@ export default function NavToggle() {
         <div className="md:hidden border-t border-gray-100 dark:border-white/10 bg-white dark:bg-background shadow-sm">
           <div className="px-4 py-4 space-y-3">
             {isOnAbout ? (
-              <NavLink to="/work" className={navLinkClass} style={({ isActive }) => isActive ? { color: 'var(--brand)' } : {}} onClick={() => setMobileOpen(false)}>Home</NavLink>
+              <NavLink to="/" className={navLinkClass} style={({ isActive }) => isActive ? { color: 'var(--brand)' } : {}} onClick={() => setMobileOpen(false)}>Home</NavLink>
             ) : (
               <NavLink to="/about" className={navLinkClass} style={({ isActive }) => isActive ? { color: 'var(--brand)' } : {}} onClick={() => setMobileOpen(false)}>About me</NavLink>
             )}
             <a
               href="#"
               className="block px-4 py-2 text-sm font-medium text-gray-500 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-400 dark:hover:text-white dark:hover:bg-white/10 rounded-lg transition-colors"
-              onClick={() => setMobileOpen(false)}
+              onClick={(e) => { handleResume(e); setMobileOpen(false); }}
             >
               Resume
             </a>

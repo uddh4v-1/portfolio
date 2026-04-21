@@ -1,12 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
-
-const stats = [
-  { value: 3, suffix: '+', label: 'Years Experience' },
-  { value: 5, suffix: '', label: 'Projects Shipped' },
-  { value: 12, suffix: '+', label: 'Tools in Stack' },
-  { value: 50, suffix: '+', label: 'PMs Mentored' },
-];
+import { stats } from '../../constants/stats';
 
 function CountUp({ target, suffix }: { target: number; suffix: string }) {
   const [count, setCount] = useState(0);
@@ -19,12 +13,8 @@ function CountUp({ target, suffix }: { target: number; suffix: string }) {
     const step = Math.max(1, Math.ceil(target / 40));
     const timer = setInterval(() => {
       current += step;
-      if (current >= target) {
-        setCount(target);
-        clearInterval(timer);
-      } else {
-        setCount(current);
-      }
+      if (current >= target) { setCount(target); clearInterval(timer); }
+      else setCount(current);
     }, 30);
     return () => clearInterval(timer);
   }, [inView, target]);

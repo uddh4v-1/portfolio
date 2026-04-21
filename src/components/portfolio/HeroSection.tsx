@@ -2,28 +2,16 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { personal } from '../../constants/personal';
-
-const indiaPhotos = [
-  'https://images.unsplash.com/photo-1564507592333-c60657eea523?w=300&h=160&fit=crop',
-  'https://images.unsplash.com/photo-1587474260584-136574528ed5?w=300&h=160&fit=crop',
-];
-
-const roles = [
-  { name: 'React',      img: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg' },
-  { name: 'Node.js',    img: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg' },
-  { name: 'Python',     img: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg' },
-  { name: 'TypeScript', img: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg' },
-  { name: 'AWS',        img: 'https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg' },
-  { name: 'Docker',     img: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg' },
-];
+import { heroRoles } from '../../constants/tech';
+import { locationPhotos, flagUrl } from '../../constants/carousel';
 
 export default function HeroSection() {
   const [roleIndex, setRoleIndex] = useState(0);
   const [photoIndex, setPhotoIndex] = useState(0);
 
   useEffect(() => {
-    const t = setInterval(() => setRoleIndex(i => (i + 1) % roles.length), 1800);
-    const p = setInterval(() => setPhotoIndex(i => (i + 1) % indiaPhotos.length), 2500);
+    const t = setInterval(() => setRoleIndex(i => (i + 1) % heroRoles.length), 1800);
+    const p = setInterval(() => setPhotoIndex(i => (i + 1) % locationPhotos.length), 2500);
     return () => { clearInterval(t); clearInterval(p); };
   }, []);
 
@@ -75,8 +63,8 @@ export default function HeroSection() {
             <AnimatePresence mode="wait">
               <motion.img
                 key={roleIndex}
-                src={roles[roleIndex].img}
-                alt={roles[roleIndex].name}
+                src={heroRoles[roleIndex].img}
+                alt={heroRoles[roleIndex].name}
                 className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 object-contain"
                 initial={{ y: 20, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -97,7 +85,7 @@ export default function HeroSection() {
             <AnimatePresence mode="wait">
               <motion.img
                 key={photoIndex}
-                src={indiaPhotos[photoIndex]}
+                src={locationPhotos[photoIndex]}
                 alt="India"
                 className="w-full h-full object-cover absolute inset-0"
                 initial={{ y: '100%', opacity: 0 }}
@@ -108,7 +96,7 @@ export default function HeroSection() {
             </AnimatePresence>
           </span>
           <span className="inline-flex items-center gap-2 sm:gap-3 text-gray-900 dark:text-white">
-            Kolhapur,
+            {personal.location},
             <motion.span
               initial={{ y: 16, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -117,7 +105,7 @@ export default function HeroSection() {
             >
               <span className="animate-flag-3d inline-block">
                 <img
-                  src="https://flagcdn.com/w160/in.png"
+                  src={flagUrl}
                   alt="India flag"
                   className="rounded-lg shadow-md w-10 h-7 sm:w-14 sm:h-9 md:w-16 md:h-11 lg:w-20 lg:h-14 object-cover"
                 />

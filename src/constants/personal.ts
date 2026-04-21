@@ -5,6 +5,7 @@ export const personal = {
   title: 'Product Designer',
   footerTitle: 'Software Developer',
   bio: "Software Engineer. Problem solver. Builder of things that scale.\n4+ years at Cybage, working across health, finance, and AI — turning ambiguous problems into clean, reliable software that teams are proud to ship.",
+  location: 'Kolhapur',
   aboutTagline: 'A software engineer who makes things work — and work well.',
   aboutBio: "I'm Uddhav Powar, a software developer with a passion for building scalable, elegant solutions. I care deeply about clean architecture, developer experience, and shipping products that make a real difference. Beyond the screen, I love exploring new places, staying active, and constantly learning.",
   avatar: '/avatar.png',
