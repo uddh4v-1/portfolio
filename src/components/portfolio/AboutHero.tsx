@@ -111,7 +111,7 @@ export default function AboutHero() {
   const onTouchEnd = () => { dragging.current = false; };
 
   return (
-    <section className="relative flex flex-col items-center pt-16 md:pt-28 pb-8 md:pb-16">
+    <section className="relative flex flex-col items-center pt-16 md:pt-28 pb-8 md:pb-16 bg-background">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

@@ -16,7 +16,7 @@ export default function WIPBanner() {
           exit={{ y: 80, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 300, damping: 28, delay: 0.6 }}
           className="fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 sm:gap-3 rounded-full
-            bg-white/95 dark:bg-gray-950/95
+            bg-card/95
             shadow-lg shadow-black/10 dark:shadow-2xl dark:shadow-black/40
             backdrop-blur-md
             px-3 sm:px-4 py-2 sm:py-2.5
