@@ -62,11 +62,10 @@ export default function AboutHero() {
       }
 
       const midX  = window.innerWidth / 2;
-      const rects = cardsRef.current.map(c => c?.getBoundingClientRect() ?? null);
-      rects.forEach((rect, i) => {
-        const card = cardsRef.current[i];
-        if (!card || !rect) return;
-        const cardMid = rect.left + rect.width / 2;
+      const cw    = cardWRef.current;
+      cardsRef.current.forEach((card, i) => {
+        if (!card) return;
+        const cardMid = tx.current + i * stride + cw / 2;
         const t       = (cardMid - midX) / midX;
         const clampedT = Math.max(-1.5, Math.min(1.5, t));
         const absT    = Math.abs(clampedT);

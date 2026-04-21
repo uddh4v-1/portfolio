@@ -9,14 +9,16 @@ function CountUp({ target, suffix }: { target: number; suffix: string }) {
 
   useEffect(() => {
     if (!inView) return;
-    let current = 0;
-    const step = Math.max(1, Math.ceil(target / 40));
-    const timer = setInterval(() => {
-      current += step;
-      if (current >= target) { setCount(target); clearInterval(timer); }
-      else setCount(current);
-    }, 30);
-    return () => clearInterval(timer);
+    const duration = 1000;
+    const start = performance.now();
+    let rafId: number;
+    const animate = (now: number) => {
+      const progress = Math.min((now - start) / duration, 1);
+      setCount(Math.round(target * progress));
+      if (progress < 1) rafId = requestAnimationFrame(animate);
+    };
+    rafId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(rafId);
   }, [inView, target]);
 
   return <span ref={ref}>{count}{suffix}</span>;

@@ -11,7 +11,7 @@ export default function PostsSection() {
             className="shrink-0 w-40 sm:w-52 md:w-56 rounded-2xl overflow-hidden border border-gray-100 dark:border-white/10 bg-white dark:bg-white/5 hover:shadow-md dark:hover:shadow-black/30 transition-shadow"
           >
             <div className="aspect-square overflow-hidden bg-gray-50 dark:bg-white/5">
-              <img src={post.image} alt={post.title} className="w-full h-full object-cover" />
+              <img src={post.image} alt={post.title} loading="lazy" decoding="async" className="w-full h-full object-cover" />
             </div>
             <div className="p-3 md:p-4">
               <p className="text-sm font-medium text-gray-800 dark:text-gray-200 leading-snug mb-2">{post.title}</p>
