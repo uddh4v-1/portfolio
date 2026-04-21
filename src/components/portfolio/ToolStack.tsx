@@ -19,8 +19,8 @@ type Tool = { name: string; icon: string };
 
 function ToolItem({ tool }: { tool: Tool }) {
   return (
-    <div className="shrink-0 flex flex-col items-center gap-2 mx-4 group cursor-default">
-      <div className="w-14 h-14 rounded-2xl bg-gray-50 dark:bg-white/10 border border-gray-100 dark:border-white/10 flex items-center justify-center p-3 group-hover:border-gray-300 dark:group-hover:border-white/30 group-hover:shadow-sm transition-all">
+    <div className="shrink-0 flex flex-col items-center gap-1.5 mx-3 md:mx-4 group cursor-default">
+      <div className="w-11 h-11 md:w-14 md:h-14 rounded-2xl bg-gray-50 dark:bg-white/10 border border-gray-100 dark:border-white/10 flex items-center justify-center p-2.5 md:p-3 group-hover:border-gray-300 dark:group-hover:border-white/30 group-hover:shadow-sm transition-all">
         <img src={tool.icon} alt={tool.name} className="w-full h-full object-contain" />
       </div>
       <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">{tool.name}</span>
@@ -32,8 +32,8 @@ export default function ToolStack() {
   const doubled = [...tools, ...tools, ...tools, ...tools];
 
   return (
-    <section id="skills" className="py-24 overflow-hidden">
-      <div className="max-w-5xl mx-auto px-6 mb-10">
+    <section id="skills" className="py-12 md:py-24 overflow-hidden">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 mb-8 md:mb-10">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

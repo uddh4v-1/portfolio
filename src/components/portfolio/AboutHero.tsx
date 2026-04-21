@@ -111,12 +111,12 @@ export default function AboutHero() {
   const onTouchEnd = () => { dragging.current = false; };
 
   return (
-    <section className="relative flex flex-col items-center pt-16 md:pt-28 pb-8 md:pb-16 min-h-screen">
+    <section className="relative flex flex-col items-center pt-16 md:pt-28 pb-8 md:pb-16">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="text-center z-10 mb-10 md:mb-14 px-6"
+        className="text-center z-10 mb-6 md:mb-14 px-6"
       >
         <h1 className="text-3xl md:text-5xl font-semibold text-gray-900 dark:text-white tracking-tight mb-3">
           Hello, I'm {personal.firstName}
@@ -124,14 +124,14 @@ export default function AboutHero() {
         <p className="text-sm md:text-base text-gray-500 dark:text-gray-400">
           {personal.aboutTagline.split('makes things work').map((part, i) =>
             i === 0
-              ? <span key={i}>{part}<span style={{ color: '#f97316' }}>makes things work</span></span>
+              ? <span key={i}>{part}<span style={{ color: 'var(--brand)' }}>makes things work</span></span>
               : <span key={i}>{part}</span>
           )}
         </p>
       </motion.div>
 
       <div
-        className="w-full cursor-grab active:cursor-grabbing select-none py-8 md:py-16 overflow-hidden"
+        className="w-full cursor-grab active:cursor-grabbing select-none py-4 md:py-16 overflow-hidden"
         onMouseDown={onMouseDown}
         onMouseMove={onMouseMove}
         onMouseUp={onMouseUp}

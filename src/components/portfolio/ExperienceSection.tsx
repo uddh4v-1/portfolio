@@ -3,7 +3,7 @@ import { experiences, education } from '../../constants/personal';
 
 export default function ExperienceSection() {
   return (
-    <section className="py-12 px-6 max-w-5xl mx-auto space-y-16">
+    <section className="py-8 md:py-12 px-4 sm:px-6 max-w-5xl mx-auto space-y-12 md:space-y-16">
       {/* Experience */}
       <div>
         <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-8">Professional Experience</h2>
@@ -17,9 +17,9 @@ export default function ExperienceSection() {
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">{exp.company}</h3>
                 <div className="space-y-0.5">
                   {exp.roles.map((role, j) => (
-                    <div key={j} className="flex items-start sm:items-center justify-between gap-2">
+                    <div key={j} className="flex flex-col sm:flex-row sm:items-center justify-between gap-0.5 sm:gap-2">
                       <span className="text-sm text-gray-500 dark:text-gray-400">{role.title}</span>
-                      <span className="text-xs text-gray-400 dark:text-gray-500">{role.period}</span>
+                      <span className="text-xs text-gray-400 dark:text-gray-500 sm:shrink-0">{role.period}</span>
                     </div>
                   ))}
                 </div>
@@ -38,13 +38,13 @@ export default function ExperienceSection() {
               <div className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-white/10 flex items-center justify-center text-xl shrink-0">
                 {edu.logo}
               </div>
-              <div className="flex-1 flex items-start justify-between gap-2 min-w-0">
+              <div className="flex-1 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-2 min-w-0">
                 <div>
                   <h3 className="text-sm font-semibold text-gray-900 dark:text-white">{edu.school}</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">{edu.degree}</p>
                   {edu.cgpa && <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">CGPA: {edu.cgpa}</p>}
                 </div>
-                <span className="text-xs text-gray-400 dark:text-gray-500 ml-4 shrink-0">{edu.period}</span>
+                <span className="text-xs text-gray-400 dark:text-gray-500 sm:ml-4 shrink-0">{edu.period}</span>
               </div>
             </div>
           ))}

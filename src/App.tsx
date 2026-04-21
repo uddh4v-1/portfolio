@@ -9,7 +9,6 @@ import WorkView from './components/portfolio/WorkView';
 import WIPBanner from './components/portfolio/WIPBanner';
 import { Toaster } from './components/ui/toaster';
 import { queryClientInstance } from './lib/query-client';
-
 const AppContent = () => {
   return (
     <Routes>
@@ -30,11 +29,11 @@ function App() {
   return (
   
       <QueryClientProvider client={queryClientInstance}>
-        <Router>
-          <AppContent />
-        </Router>
-        <Toaster />
-        <WIPBanner />
+          <Router>
+            <AppContent />
+          </Router>
+          <Toaster />
+          <WIPBanner />
       </QueryClientProvider>
   
   )

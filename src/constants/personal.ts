@@ -7,7 +7,7 @@ export const personal = {
   bio: "Software Engineer. Problem solver. Builder of things that scale.\n4+ years at Cybage, working across health, finance, and AI — turning ambiguous problems into clean, reliable software that teams are proud to ship.",
   aboutTagline: 'A software engineer who makes things work — and work well.',
   aboutBio: "I'm Uddhav Powar, a software developer with a passion for building scalable, elegant solutions. I care deeply about clean architecture, developer experience, and shipping products that make a real difference. Beyond the screen, I love exploring new places, staying active, and constantly learning.",
-  avatar: 'https://media.base44.com/images/public/69e4d6fd3247f4b649ed641e/6da9223a0_generated_baad4790.png',
+  avatar: '/avatar.png',
   email: 'uddh4v@gmail.com',
   social: {
     linkedin: 'https://www.linkedin.com/in/uddhav-powar-7474103ab',

@@ -34,7 +34,7 @@ function CountUp({ target, suffix }: { target: number; suffix: string }) {
 
 export default function StatsBar() {
   return (
-    <section className="py-8 px-6 max-w-5xl mx-auto">
+    <section className="py-6 md:py-8 px-4 sm:px-6 max-w-5xl mx-auto">
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {stats.map((stat, i) => (
           <motion.div
@@ -43,9 +43,9 @@ export default function StatsBar() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: i * 0.08 }}
-            className="flex flex-col items-center text-center p-6 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 hover:border-gray-200 dark:hover:border-white/20 transition-colors"
+            className="flex flex-col items-center text-center p-4 md:p-6 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 hover:border-gray-200 dark:hover:border-white/20 transition-colors"
           >
-            <span className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-1 tabular-nums">
+            <span className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-1 tabular-nums">
               <CountUp target={stat.value} suffix={stat.suffix} />
             </span>
             <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">{stat.label}</span>

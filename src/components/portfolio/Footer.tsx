@@ -12,11 +12,11 @@ export default function Footer() {
   };
 
   return (
-    <section id="contact" className="py-16 pb-8 text-center px-6">
-      <div className="py-6 overflow-hidden border-t border-b border-gray-100 dark:border-white/10 mb-16" style={{ maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)' }}>
+    <section id="contact" className="py-10 md:py-16 pb-8 text-center px-4 sm:px-6">
+      <div className="py-6 overflow-hidden border-t border-b border-gray-100 dark:border-white/10 mb-8 md:mb-16" style={{ maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)' }}>
         <div className="animate-marquee flex">
           {Array.from({ length: 8 }).map((_, i) => (
-            <span key={i} className="text-5xl md:text-7xl font-bold text-gray-100 dark:text-white/10 mx-8 shrink-0 tracking-tight select-none whitespace-nowrap">
+            <span key={i} className="text-3xl sm:text-5xl md:text-7xl font-bold text-gray-100 dark:text-white/10 mx-4 sm:mx-8 shrink-0 tracking-tight select-none whitespace-nowrap">
               {personal.name.toUpperCase()}
             </span>
           ))}
@@ -29,7 +29,7 @@ export default function Footer() {
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white tracking-tight mb-5">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white tracking-tight mb-5">
             Thanks for dropping by{' '}
             <motion.span
               style={{ display: 'inline-block', transformOrigin: '70% 70%' }}
@@ -39,7 +39,7 @@ export default function Footer() {
               👋
             </motion.span>
           </h2>
-          <p className="text-gray-500 dark:text-gray-400 text-lg leading-relaxed mb-10">
+          <p className="text-gray-500 dark:text-gray-400 text-base md:text-lg leading-relaxed mb-10">
             If something here caught your eye, sparked a thought, or just felt right — feel free to reach out.
             Let's create what doesn't exist yet, or make what does feel simpler.
           </p>
@@ -88,7 +88,7 @@ export default function Footer() {
         </motion.div>
       </div>
 
-      <div className="mt-24 pt-8 border-t border-gray-100 dark:border-white/10 max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-gray-400 dark:text-gray-500">
+      <div className="mt-12 md:mt-24 pt-8 border-t border-gray-100 dark:border-white/10 max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-gray-400 dark:text-gray-500">
         <span className="font-semibold text-gray-900 dark:text-white uppercase tracking-widest text-xs">{personal.name}</span>
         <span>{personal.footerTitle}</span>
         <span>© {new Date().getFullYear()}</span>

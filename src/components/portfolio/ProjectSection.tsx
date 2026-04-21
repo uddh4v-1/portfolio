@@ -1,5 +1,3 @@
-import React from 'react';
-
 const projects = [
   {
     title: 'Simplifying reimbursement for policyholders',
@@ -50,16 +48,16 @@ const projects = [
 
 export default function ProjectsSection() {
   return (
-    <section className="py-12 px-6 max-w-5xl mx-auto">
+    <section className="py-8 md:py-12 px-4 sm:px-6 max-w-5xl mx-auto">
       <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">Selected work</h2>
-      <p className="text-sm text-gray-400 dark:text-gray-500 mb-8">Projects crafted to solve real problems</p>
+      <p className="text-sm text-gray-600 dark:text-gray-400 mb-8">Projects crafted to solve real problems</p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {projects.map((project, i) => (
           <div
             key={i}
             className={`group cursor-pointer rounded-2xl overflow-hidden border border-gray-100 dark:border-white/10 hover:border-gray-200 dark:hover:border-white/20 transition-all duration-300 hover:shadow-lg dark:hover:shadow-black/30 ${
-              project.span === 'full' ? 'md:col-span-2' : ''
+              project.span === 'full' ? 'sm:col-span-2' : ''
             }`}
           >
             {/* Image */}
