@@ -8,7 +8,7 @@ export const personal = {
   location: 'Kolhapur',
   aboutTagline: 'A software engineer who makes things work — and work well.',
   aboutBio: "I'm Uddhav Powar, a software developer with a passion for building scalable, elegant solutions. I care deeply about clean architecture, developer experience, and shipping products that make a real difference. Beyond the screen, I love exploring new places, staying active, and constantly learning.",
-  avatar: '/avatar.jpg',
+  avatar: '/avatar.png',
   email: 'uddh4v@gmail.com',
   social: {
     linkedin: 'https://www.linkedin.com/in/uddhav-powar-7474103ab',
