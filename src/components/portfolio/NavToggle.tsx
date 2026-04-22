@@ -12,7 +12,6 @@ const navLinkClass = ({ isActive }: { isActive: boolean }) =>
 
 export default function NavToggle() {
   const location = useLocation();
-  const isOnAbout = location.pathname === '/about';
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const [dark, setDark] = useState(() => {
@@ -32,12 +31,8 @@ export default function NavToggle() {
         <Avatar3D size={36} />
 
         <div className="hidden md:flex items-center gap-1">
-          {isOnAbout ? (
-            <NavLink to="/" className={navLinkClass} style={({ isActive }) => isActive ? { color: 'var(--brand)' } : {}}>Home</NavLink>
-          ) : (
-            <NavLink to="/about" className={navLinkClass} style={({ isActive }) => isActive ? { color: 'var(--brand)' } : {}}>About me</NavLink>
-          )}
-          <NavLink to="/resume" className={navLinkClass} style={({ isActive }) => isActive ? { color: 'var(--brand)' } : {}}>Resume</NavLink>
+          <NavLink to="/" className={navLinkClass} style={({ isActive }) => isActive ? { color: 'var(--brand)' } : {}}>Home</NavLink>
+          <NavLink to="/about" className={navLinkClass} style={({ isActive }) => isActive ? { color: 'var(--brand)' } : {}}>About me</NavLink>
         </div>
 
         <div className="hidden md:flex items-center gap-3">
@@ -63,12 +58,8 @@ export default function NavToggle() {
       {mobileOpen && (
         <div className="md:hidden border-t border-gray-100 dark:border-white/10 bg-white dark:bg-background shadow-sm">
           <div className="px-4 py-4 space-y-3">
-            {isOnAbout ? (
-              <NavLink to="/" className={navLinkClass} style={({ isActive }) => isActive ? { color: 'var(--brand)' } : {}} onClick={() => setMobileOpen(false)}>Home</NavLink>
-            ) : (
-              <NavLink to="/about" className={navLinkClass} style={({ isActive }) => isActive ? { color: 'var(--brand)' } : {}} onClick={() => setMobileOpen(false)}>About me</NavLink>
-            )}
-            <NavLink to="/resume" className={navLinkClass} style={({ isActive }) => isActive ? { color: 'var(--brand)' } : {}} onClick={() => setMobileOpen(false)}>Resume</NavLink>
+            <NavLink to="/" className={navLinkClass} style={({ isActive }) => isActive ? { color: 'var(--brand)' } : {}} onClick={() => setMobileOpen(false)}>Home</NavLink>
+            <NavLink to="/about" className={navLinkClass} style={({ isActive }) => isActive ? { color: 'var(--brand)' } : {}} onClick={() => setMobileOpen(false)}>About me</NavLink>
             <div className="flex items-center gap-3 pt-2 border-t border-gray-100 dark:border-white/10">
               <button
                 onClick={() => setDark(d => !d)}

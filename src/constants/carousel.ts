@@ -1,11 +1,15 @@
 export const aboutPhotos = [
-  'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&h=600&fit=crop',
-  'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=600&fit=crop',
-  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=600&fit=crop',
-  'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=600&fit=crop',
-  'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&h=600&fit=crop',
-  'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=400&h=600&fit=crop',
-  'https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?w=400&h=600&fit=crop',
+  '/1000204644.jpg.jpeg',
+  '/1000382969.jpg.jpeg',
+  '/1000429703.jpg.jpeg',
+  '/1000431360.jpg.jpeg',
+  '/1000363499.jpg.jpeg',
+  '/IMG_20241012_201212315.jpg.jpeg',
+  '/I_want_to_202604031808.png',
+  '/1000121083.jpg.jpeg',
+  '/1000136309.jpg.jpeg',
+  '/1000444237.png',
+ 
 ];
 
 export const locationPhotos = [

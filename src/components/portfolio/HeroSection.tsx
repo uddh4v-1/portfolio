@@ -142,12 +142,19 @@ export default function HeroSection() {
           >
             Let's work together
           </a>
-          <a
-            href="#work"
-            className="px-7 py-3.5 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 border border-gray-200 dark:border-white/20 text-gray-900 dark:text-white text-sm font-semibold rounded-full transition-all hover:-translate-y-0.5"
+          <button
+            onClick={() => {
+              const link = document.createElement('a');
+              link.href = '/resume.pdf';
+              link.download = 'resume.pdf';
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            }}
+            className="px-7 py-3.5 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 border border-gray-200 dark:border-white/20 text-gray-900 dark:text-white text-sm font-semibold rounded-full transition-all hover:-translate-y-0.5 cursor-pointer"
           >
-            Explore my work
-          </a>
+            Resume
+          </button>
         </motion.div>
       </motion.div>
 
