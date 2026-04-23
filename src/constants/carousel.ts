@@ -1,15 +1,14 @@
 export const aboutPhotos = [
-  '/1000204644.jpg.jpeg',
-  '/1000382969.jpg.jpeg',
-  '/1000429703.jpg.jpeg',
-  '/1000431360.jpg.jpeg',
-  '/1000363499.jpg.jpeg',
-  '/IMG_20241012_201212315.jpg.jpeg',
-  '/I_want_to_202604031808.png',
-  '/1000121083.jpg.jpeg',
-  '/1000136309.jpg.jpeg',
-  '/1000444237.png',
- 
+  '/1000204644.jpeg',
+  '/1000382969.jpeg',
+  '/1000429703.jpeg',
+  '/1000431360.jpeg',
+  '/1000363499.jpeg',
+  '/IMG_20241012_201212315.jpeg',
+  '/I_want_to_202604031808.jpeg',
+  '/1000121083.jpeg',
+  '/1000136309.jpeg',
+  '/1000444237.jpeg',
 ];
 
 export const locationPhotos = [

@@ -149,6 +149,8 @@ export default function AboutHero() {
                 alt={`Photo ${(i % aboutPhotos.length) + 1}`}
                 className="w-full h-full object-cover pointer-events-none"
                 draggable={false}
+                loading={i < 4 ? 'eager' : 'lazy'}
+                decoding="async"
               />
             </div>
           ))}
