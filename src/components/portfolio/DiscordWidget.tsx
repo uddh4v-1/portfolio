@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 // Replace with your numeric Discord User ID
 // To get it: Discord → Settings → Advanced → Developer Mode on → tap your profile → Copy ID
-const DISCORD_USER_ID = 'YOUR_DISCORD_USER_ID';
+const DISCORD_USER_ID = '467296565305016320';
 
 type DiscordUser = {
   id: string;
