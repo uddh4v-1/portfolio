@@ -3,6 +3,7 @@ import HeroSection from "./HeroSection";
 import ToolStack from "./ToolStack";
 import ExperienceSection from "./ExperienceSection";
 import PluginsSection from "./PluginsSection";
+import SpotifyWidget from "./SpotifyWidget";
 // import ProjectsSection from "./ProjectSection";
 
 type WorkViewProps = {
@@ -23,6 +24,9 @@ export default function WorkView({ activeTab = 'work' }: WorkViewProps) {
           <ToolStack />
           <ExperienceSection />
           {/* <ProjectsSection /> */}
+          <div className="px-4 sm:px-6 max-w-5xl mx-auto pb-12">
+            <SpotifyWidget />
+          </div>
         </>
       )}
       {activeTab === 'plugins' && (
