@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Music } from 'lucide-react';
+import { SPOTIFY_REFRESH_INTERVAL } from '../../constants/animations';
+import { DRAG_CONSTRAINTS } from '../../constants/breakpoints';
+import { useWidgetDrag } from '../../hooks/use-widget-drag';
 
 type Track = {
   isPlaying: boolean;
@@ -10,20 +13,17 @@ type Track = {
   url: string;
 };
 
+const WIDGET_MAX_WIDTH = 'min(320px, calc(100vw - 3rem))';
+const SPOTIFY_API_ENDPOINT = '/api/spotify';
+const BAR_ANIMATION_DELAYS = [0, 0.15, 0.3];
+const BAR_STATIC_HEIGHTS = [8, 5, 10];
+
 export default function SpotifyWidget() {
   const [track, setTrack] = useState<Track | null | 'loading'>('loading');
-  const [isDragging, setIsDragging] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 640);
-    check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
-  }, []);
+  const { isDragging, setIsDragging, isMobile } = useWidgetDrag();
 
   const fetchTrack = () => {
-    fetch('/api/spotify')
+    fetch(SPOTIFY_API_ENDPOINT)
       .then(r => r.json())
       .then((d: Partial<Track>) => {
         if (d.title) setTrack(d as Track);
@@ -34,7 +34,7 @@ export default function SpotifyWidget() {
 
   useEffect(() => {
     fetchTrack();
-    const id = setInterval(fetchTrack, 30_000);
+    const id = setInterval(fetchTrack, SPOTIFY_REFRESH_INTERVAL);
     return () => clearInterval(id);
   }, []);
 
@@ -43,10 +43,10 @@ export default function SpotifyWidget() {
 
   return (
     <motion.div
-      drag={isMobile ? false : true}
+      drag={!isMobile}
       dragMomentum={false}
       dragElastic={0.05}
-      dragConstraints={{ top: -400, left: -600, right: 600, bottom: 600 }}
+      dragConstraints={DRAG_CONSTRAINTS}
       onDragStart={() => setIsDragging(true)}
       onDragEnd={() => setIsDragging(false)}
       whileDrag={{ scale: 1.04, zIndex: 50 }}
@@ -57,7 +57,7 @@ export default function SpotifyWidget() {
         cursor: isMobile ? 'default' : isDragging ? 'grabbing' : 'grab',
         userSelect: 'none',
         zIndex: 40,
-        maxWidth: 'min(320px, calc(100vw - 3rem))',
+        maxWidth: WIDGET_MAX_WIDTH,
       }}
       className="inline-flex items-center gap-3 px-3 py-2.5 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 shadow-lg"
     >
@@ -87,7 +87,7 @@ export default function SpotifyWidget() {
             <div className="flex items-center gap-1.5 mb-0.5">
               <div className="flex items-end gap-0.5 h-3 shrink-0">
                 {(track as Track).isPlaying ? (
-                  [0, 0.15, 0.3].map(delay => (
+                  BAR_ANIMATION_DELAYS.map(delay => (
                     <motion.div
                       key={delay}
                       className="w-0.75 rounded-sm bg-green-500"
@@ -96,7 +96,7 @@ export default function SpotifyWidget() {
                     />
                   ))
                 ) : (
-                  [8, 5, 10].map((h, i) => (
+                  BAR_STATIC_HEIGHTS.map((h, i) => (
                     <div key={i} className="w-0.75 rounded-sm bg-gray-300 dark:bg-gray-600" style={{ height: h }} />
                   ))
                 )}

@@ -2,22 +2,35 @@ import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { personal } from "../../constants/personal";
 import { aboutPhotos } from "../../constants/carousel";
+import { CAROUSEL_AUTO_SCROLL_SPEED } from "../../constants/animations";
+
+const CAROUSEL_GAP = 2;
+
+const CARD_WIDTHS = { sm: 130, md: 180, lg: 300 } as const;
+const CARD_HEIGHTS = { sm: 195, md: 270, lg: 450 } as const;
+const CARD_BREAKPOINTS = { sm: 480, md: 768 } as const;
+
+const CARD_PERSPECTIVE = 900;
+const CARD_MAX_CLAMP = 1.5;
+const CARD_SCALE_BASE = 1.05;
+const CARD_SCALE_FACTOR = 0.3;
+const CARD_ROTATE_FACTOR = 42;
+const CARD_EAGER_LOAD_COUNT = 4;
 
 const repeated = [...aboutPhotos, ...aboutPhotos, ...aboutPhotos];
-const GAP = 2;
 
 function getCardW() {
   const w = window.innerWidth;
-  if (w < 480) return 130;
-  if (w < 768) return 180;
-  return 300;
+  if (w < CARD_BREAKPOINTS.sm) return CARD_WIDTHS.sm;
+  if (w < CARD_BREAKPOINTS.md) return CARD_WIDTHS.md;
+  return CARD_WIDTHS.lg;
 }
 
 function getCardH() {
   const w = window.innerWidth;
-  if (w < 480) return 195;
-  if (w < 768) return 270;
-  return 450;
+  if (w < CARD_BREAKPOINTS.sm) return CARD_HEIGHTS.sm;
+  if (w < CARD_BREAKPOINTS.md) return CARD_HEIGHTS.md;
+  return CARD_HEIGHTS.lg;
 }
 
 export default function AboutHero() {
@@ -36,24 +49,22 @@ export default function AboutHero() {
       const ch = getCardH();
       cardWRef.current = cw;
       cardHRef.current = ch;
-      // update each card's inline size
       cardsRef.current.forEach(c => {
         if (!c) return;
         c.style.width  = `${cw}px`;
         c.style.height = `${ch}px`;
       });
-      // reset loop position
-      tx.current = -(aboutPhotos.length * (cw + GAP));
+      tx.current = -(aboutPhotos.length * (cw + CAROUSEL_GAP));
     };
 
     updateSize();
     window.addEventListener('resize', updateSize);
 
     const loop = () => {
-      const stride = cardWRef.current + GAP;
+      const stride = cardWRef.current + CAROUSEL_GAP;
       const loopW  = aboutPhotos.length * stride;
 
-      if (!dragging.current) tx.current -= 0.6;
+      if (!dragging.current) tx.current -= CAROUSEL_AUTO_SCROLL_SPEED;
       if (tx.current <= -loopW * 2) tx.current += loopW;
       if (tx.current >= 0)          tx.current -= loopW;
 
@@ -61,17 +72,17 @@ export default function AboutHero() {
         stripRef.current.style.transform = `translateX(${tx.current}px)`;
       }
 
-      const midX  = window.innerWidth / 2;
-      const cw    = cardWRef.current;
+      const midX = window.innerWidth / 2;
+      const cw   = cardWRef.current;
       cardsRef.current.forEach((card, i) => {
         if (!card) return;
-        const cardMid = tx.current + i * stride + cw / 2;
-        const t       = (cardMid - midX) / midX;
-        const clampedT = Math.max(-1.5, Math.min(1.5, t));
-        const absT    = Math.abs(clampedT);
-        const scale   = 1.05 - absT * 0.3;
-        const rotateY = -clampedT * 42;
-        card.style.transform = `perspective(900px) rotateY(${rotateY.toFixed(1)}deg) scale(${scale.toFixed(3)})`;
+        const cardMid  = tx.current + i * stride + cw / 2;
+        const t        = (cardMid - midX) / midX;
+        const clampedT = Math.max(-CARD_MAX_CLAMP, Math.min(CARD_MAX_CLAMP, t));
+        const absT     = Math.abs(clampedT);
+        const scale    = CARD_SCALE_BASE - absT * CARD_SCALE_FACTOR;
+        const rotateY  = -clampedT * CARD_ROTATE_FACTOR;
+        card.style.transform = `perspective(${CARD_PERSPECTIVE}px) rotateY(${rotateY.toFixed(1)}deg) scale(${scale.toFixed(3)})`;
       });
 
       rafRef.current = requestAnimationFrame(loop);
@@ -137,10 +148,10 @@ export default function AboutHero() {
               ref={(el) => { cardsRef.current[i] = el; }}
               className="shrink-0 rounded-2xl overflow-hidden shadow-lg border-2 border-white dark:border-white/10"
               style={{
-                width:       130,
-                height:      195,
-                marginLeft:  GAP / 2,
-                marginRight: GAP / 2,
+                width:       CARD_WIDTHS.sm,
+                height:      CARD_HEIGHTS.sm,
+                marginLeft:  CAROUSEL_GAP / 2,
+                marginRight: CAROUSEL_GAP / 2,
                 willChange:  'transform',
               }}
             >
@@ -149,14 +160,13 @@ export default function AboutHero() {
                 alt={`Photo ${(i % aboutPhotos.length) + 1}`}
                 className="w-full h-full object-cover pointer-events-none"
                 draggable={false}
-                loading={i < 4 ? 'eager' : 'lazy'}
+                loading={i < CARD_EAGER_LOAD_COUNT ? 'eager' : 'lazy'}
                 decoding="async"
               />
             </div>
           ))}
         </div>
       </div>
-
     </section>
   );
 }

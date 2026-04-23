@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
 import { Toaster as Sonner } from "sonner"
+import { THEME_STORAGE_KEY } from "../../constants/storage"
 
 const Toaster = ({ ...props }: React.ComponentProps<typeof Sonner>) => {
   const [theme, setTheme] = useState<'dark' | 'light'>(() => {
-    const stored = localStorage.getItem('theme');
+    const stored = localStorage.getItem(THEME_STORAGE_KEY);
     if (stored === 'light') return 'light';
     return 'dark';
   });

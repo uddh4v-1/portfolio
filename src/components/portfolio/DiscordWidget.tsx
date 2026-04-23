@@ -1,9 +1,16 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { personal } from '../../constants/personal';
+import { DISCORD_REFRESH_INTERVAL } from '../../constants/animations';
+import { DRAG_CONSTRAINTS } from '../../constants/breakpoints';
+import { useWidgetDrag } from '../../hooks/use-widget-drag';
 
-// Replace with your numeric Discord User ID
-// To get it: Discord → Settings → Advanced → Developer Mode on → tap your profile → Copy ID
-const DISCORD_USER_ID = '467296565305016320';
+const LANYARD_API = `https://api.lanyard.rest/v1/users/${personal.discordUserId}`;
+const DISCORD_AVATAR_CDN = 'https://cdn.discordapp.com/avatars';
+const DISCORD_AVATAR_SIZE = 64;
+const DISCORD_BRAND_COLOR = '#5865F2';
+const WIDGET_MAX_WIDTH = 'min(320px, calc(100vw - 3rem))';
+const ACTIVITY_TYPE_PLAYING = 0;
 
 type DiscordUser = {
   id: string;
@@ -27,12 +34,12 @@ type LanyardData = {
   active_on_mobile: boolean;
 };
 
-const statusConfig = {
-  online: { color: '#23a55a', label: 'Online' },
-  idle:   { color: '#f0b232', label: 'Idle' },
-  dnd:    { color: '#f23f43', label: 'Do not disturb' },
-  offline:{ color: '#80848e', label: 'Offline' },
-};
+const STATUS_CONFIG = {
+  online:  { color: '#23a55a', label: 'Online' },
+  idle:    { color: '#f0b232', label: 'Idle' },
+  dnd:     { color: '#f23f43', label: 'Do not disturb' },
+  offline: { color: '#80848e', label: 'Offline' },
+} as const;
 
 const DiscordIcon = () => (
   <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current" xmlns="http://www.w3.org/2000/svg">
@@ -42,21 +49,11 @@ const DiscordIcon = () => (
 
 export default function DiscordWidget() {
   const [data, setData] = useState<LanyardData | null | 'loading'>('loading');
-  const [isDragging, setIsDragging] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const { isDragging, setIsDragging, isMobile } = useWidgetDrag();
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 640);
-    check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
-  }, []);
-
-  useEffect(() => {
-    if (DISCORD_USER_ID === 'YOUR_DISCORD_USER_ID') { setData(null); return; }
-
     const fetchStatus = () => {
-      fetch(`https://api.lanyard.rest/v1/users/${DISCORD_USER_ID}`)
+      fetch(LANYARD_API)
         .then(r => r.json())
         .then(res => {
           if (res.success) setData(res.data as LanyardData);
@@ -66,26 +63,26 @@ export default function DiscordWidget() {
     };
 
     fetchStatus();
-    const id = setInterval(fetchStatus, 30_000);
+    const id = setInterval(fetchStatus, DISCORD_REFRESH_INTERVAL);
     return () => clearInterval(id);
   }, []);
 
   const isLoading = data === 'loading';
   const hasData = data !== null && data !== 'loading';
   const d = hasData ? (data as LanyardData) : null;
-  const status = d ? statusConfig[d.discord_status] : null;
+  const status = d ? STATUS_CONFIG[d.discord_status] : null;
   const avatarUrl = d?.discord_user.avatar
-    ? `https://cdn.discordapp.com/avatars/${d.discord_user.id}/${d.discord_user.avatar}.png?size=64`
+    ? `${DISCORD_AVATAR_CDN}/${d.discord_user.id}/${d.discord_user.avatar}.png?size=${DISCORD_AVATAR_SIZE}`
     : null;
   const displayName = d?.discord_user.global_name ?? d?.discord_user.username ?? '';
-  const currentActivity = d?.activities.find(a => a.type === 0);
+  const currentActivity = d?.activities.find(a => a.type === ACTIVITY_TYPE_PLAYING);
 
   return (
     <motion.div
-      drag={isMobile ? false : true}
+      drag={!isMobile}
       dragMomentum={false}
       dragElastic={0.05}
-      dragConstraints={{ top: -400, left: -600, right: 600, bottom: 600 }}
+      dragConstraints={DRAG_CONSTRAINTS}
       onDragStart={() => setIsDragging(true)}
       onDragEnd={() => setIsDragging(false)}
       whileDrag={{ scale: 1.04, zIndex: 50 }}
@@ -96,7 +93,7 @@ export default function DiscordWidget() {
         cursor: isMobile ? 'default' : isDragging ? 'grabbing' : 'grab',
         userSelect: 'none',
         zIndex: 40,
-        maxWidth: 'min(320px, calc(100vw - 3rem))',
+        maxWidth: WIDGET_MAX_WIDTH,
       }}
       className="inline-flex items-center gap-3 px-3 py-2.5 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 shadow-lg"
     >
@@ -107,11 +104,13 @@ export default function DiscordWidget() {
         ) : avatarUrl ? (
           <img src={avatarUrl} alt={displayName} className="w-9 h-9 rounded-full object-cover" />
         ) : (
-          <div className="w-9 h-9 rounded-full bg-[#5865F2]/20 flex items-center justify-center text-[#5865F2]">
+          <div
+            className="w-9 h-9 rounded-full flex items-center justify-center"
+            style={{ background: `${DISCORD_BRAND_COLOR}33`, color: DISCORD_BRAND_COLOR }}
+          >
             <DiscordIcon />
           </div>
         )}
-        {/* Status dot */}
         {status && (
           <span
             className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-gray-50 dark:border-gray-900"
@@ -146,7 +145,7 @@ export default function DiscordWidget() {
           </>
         ) : (
           <>
-            <div className="flex items-center gap-1 mb-0.5 text-[#5865F2]">
+            <div className="flex items-center gap-1 mb-0.5" style={{ color: DISCORD_BRAND_COLOR }}>
               <DiscordIcon />
               <span className="text-[10px] font-mono text-gray-400 dark:text-gray-600">Discord</span>
             </div>

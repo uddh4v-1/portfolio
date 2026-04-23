@@ -1,6 +1,9 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { personal } from '../../constants/personal';
+import { EMAIL_COPY_RESET_MS, WAVE_ROTATE_KEYFRAMES } from '../../constants/animations';
+
+const MARQUEE_REPEAT_COUNT = 8;
 
 export default function Footer() {
   const [copied, setCopied] = useState(false);
@@ -8,14 +11,14 @@ export default function Footer() {
   const copyEmail = () => {
     navigator.clipboard.writeText(personal.email);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setTimeout(() => setCopied(false), EMAIL_COPY_RESET_MS);
   };
 
   return (
     <section id="contact" className="py-10 md:py-16 pb-8 text-center px-4 sm:px-6">
       <div className="py-6 overflow-hidden border-t border-b border-gray-100 dark:border-white/10 mb-8 md:mb-16" style={{ maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)' }}>
         <div className="animate-marquee flex">
-          {Array.from({ length: 8 }).map((_, i) => (
+          {Array.from({ length: MARQUEE_REPEAT_COUNT }).map((_, i) => (
             <span key={i} className="text-3xl sm:text-5xl md:text-7xl font-bold text-gray-100 dark:text-white/10 mx-4 sm:mx-8 shrink-0 tracking-tight select-none whitespace-nowrap">
               {personal.name.toUpperCase()}
             </span>
@@ -33,7 +36,7 @@ export default function Footer() {
             Thanks for dropping by{' '}
             <motion.span
               style={{ display: 'inline-block', transformOrigin: '70% 70%' }}
-              animate={{ rotate: [0, 14, -8, 14, -4, 10, 0] }}
+              animate={{ rotate: WAVE_ROTATE_KEYFRAMES }}
               transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 2 }}
             >
               👋

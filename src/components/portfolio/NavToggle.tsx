@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { NavLink } from "react-router";
 import { Menu, X, Sun, Moon } from "lucide-react";
 import Avatar3D from "./Avatar3D";
+import { THEME_STORAGE_KEY } from "../../constants/storage";
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
@@ -14,14 +15,14 @@ export default function NavToggle() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const [dark, setDark] = useState(() => {
-    const stored = localStorage.getItem("theme");
+    const stored = localStorage.getItem(THEME_STORAGE_KEY);
     if (stored) return stored === "dark";
     return true;
   });
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
-    localStorage.setItem("theme", dark ? "dark" : "light");
+    localStorage.setItem(THEME_STORAGE_KEY, dark ? "dark" : "light");
   }, [dark]);
 
   return (

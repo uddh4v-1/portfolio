@@ -6,10 +6,16 @@ export const personal = {
   footerTitle: 'Software Developer',
   bio: "Software Engineer. Problem solver. Builder of things that scale.\n4+ years at Cybage, working across health, finance, and AI — turning ambiguous problems into clean, reliable software that teams are proud to ship.",
   location: 'Kolhapur',
+  country: 'India',
   aboutTagline: 'A software engineer who makes things work — and work well.',
   aboutBio: "I'm Uddhav Powar, a software developer with a passion for building scalable, elegant solutions. I care deeply about clean architecture, developer experience, and shipping products that make a real difference. Beyond the screen, I love exploring new places, staying active, and constantly learning.",
   avatar: '/avatar.png',
   email: 'uddh4v@gmail.com',
+  discordUserId: '467296565305016320',
+  timezone: 'Asia/Kolkata',
+  locale: 'en-US',
+  timezoneLabel: 'GMT+5:30',
+  adventureVideoIds: ['REPLACE_VIDEO_ID_1', 'REPLACE_VIDEO_ID_2', 'REPLACE_VIDEO_ID_3'],
   social: {
     linkedin: 'https://www.linkedin.com/in/uddhav-powar-7474103ab',
     github: '#',
@@ -42,6 +48,46 @@ export const education = [
     period: "Jun'16 — May'18",
     logo: '🏫',
   },
+];
+
+export const currently = {
+  role: 'Software Engineer at Cybage',
+  building: 'Clinic Mitra',
+  sideQuest: 'Part-time coffee brewer',
+};
+
+export const values = [
+  {
+    emoji: '🏗️',
+    title: 'Architecture first',
+    body: 'I think structure before speed. Easy-to-change code beats fast-to-write code every time.',
+  },
+  {
+    emoji: '🚢',
+    title: 'Ship, then iterate',
+    body: 'A working solution today beats a perfect solution never. I ship early and improve fast.',
+  },
+  {
+    emoji: '🤝',
+    title: 'DX matters',
+    body: 'The experience of a codebase is a product too. I write code the next engineer will thank me for.',
+  },
+  {
+    emoji: '📐',
+    title: 'Simple over clever',
+    body: 'I reach for the boring solution first. Complexity is a cost, not a feature.',
+  },
+];
+
+export const interests = [
+  { emoji: '✈️', label: 'Travelling' },
+  { emoji: '🏋️', label: 'Fitness' },
+  { emoji: '🎵', label: 'Music' },
+  { emoji: '📚', label: 'Reading' },
+  { emoji: '🌿', label: 'Outdoors' },
+  { emoji: '📸', label: 'Photography' },
+  { emoji: '🏸', label: 'Badminton' },
+  { emoji: '🏋️', label: 'Gym' },
 ];
 
 export const researchPapers = [

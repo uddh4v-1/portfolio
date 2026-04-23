@@ -4,6 +4,7 @@ import { ChevronDown } from 'lucide-react';
 import { personal } from '../../constants/personal';
 import { heroRoles } from '../../constants/tech';
 import { locationPhotos, flagUrl } from '../../constants/carousel';
+import { ROLE_CYCLE_INTERVAL, PHOTO_CYCLE_INTERVAL } from '../../constants/animations';
 import SpotifyWidget from './SpotifyWidget';
 import DiscordWidget from './DiscordWidget';
 
@@ -12,8 +13,8 @@ export default function HeroSection() {
   const [photoIndex, setPhotoIndex] = useState(0);
 
   useEffect(() => {
-    const t = setInterval(() => setRoleIndex(i => (i + 1) % heroRoles.length), 1800);
-    const p = setInterval(() => setPhotoIndex(i => (i + 1) % locationPhotos.length), 2500);
+    const t = setInterval(() => setRoleIndex(i => (i + 1) % heroRoles.length), ROLE_CYCLE_INTERVAL);
+    const p = setInterval(() => setPhotoIndex(i => (i + 1) % locationPhotos.length), PHOTO_CYCLE_INTERVAL);
     return () => { clearInterval(t); clearInterval(p); };
   }, []);
 

@@ -1,8 +1,16 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
+import { WIP_SPRING_TRANSITION, WIP_PAINT_CAN_TRANSITION } from '../../constants/animations';
 
-const dropColors = ['var(--brand)', '#f97316', '#a855f7', '#22c55e'];
+const DROP_COLORS = ['var(--brand)', '#f97316', '#a855f7', '#22c55e'] as const;
+const DROP_STAGGER_DELAY_BASE = 1;
+const DROP_STAGGER_STEP = 0.28;
+const DROP_WIDTH = 5;
+const DROP_HEIGHT = 7;
+const DROP_LEFT_OFFSET = 2;
+const DROP_LEFT_STEP = 5;
+const DROP_TOP = 20;
 
 export default function WIPBanner() {
   const [dismissed, setDismissed] = useState(false);
@@ -14,7 +22,7 @@ export default function WIPBanner() {
           initial={{ y: 80, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 80, opacity: 0 }}
-          transition={{ type: 'spring', stiffness: 300, damping: 28, delay: 0.6 }}
+          transition={WIP_SPRING_TRANSITION}
           className="fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-2 sm:gap-3 rounded-full
             bg-card/95
             shadow-lg shadow-black/10 dark:shadow-2xl dark:shadow-black/40
@@ -29,25 +37,25 @@ export default function WIPBanner() {
               className="text-base sm:text-lg select-none"
               style={{ display: 'inline-block', transformOrigin: 'bottom center' }}
               animate={{ rotate: [0, -20, -20, 0, 0] }}
-              transition={{ duration: 2.8, repeat: Infinity, repeatDelay: 0.6, ease: 'easeInOut' }}
+              transition={WIP_PAINT_CAN_TRANSITION}
             >
               🪣
             </motion.span>
 
-            {dropColors.map((color, i) => (
+            {DROP_COLORS.map((color, i) => (
               <motion.span
                 key={i}
                 className="absolute"
                 style={{
-                  width: 5,
-                  height: 7,
-                  background: color,
+                  width:        DROP_WIDTH,
+                  height:       DROP_HEIGHT,
+                  background:   color,
                   borderRadius: '50% 50% 50% 50% / 30% 30% 70% 70%',
-                  left: 2 + i * 5,
-                  top: 20,
+                  left:         DROP_LEFT_OFFSET + i * DROP_LEFT_STEP,
+                  top:          DROP_TOP,
                 }}
                 animate={{ y: [0, 22], opacity: [0, 1, 0], scaleY: [0.5, 1.2, 0.6] }}
-                transition={{ duration: 1.1, repeat: Infinity, delay: i * 0.28 + 1, ease: 'easeIn' }}
+                transition={{ duration: 1.1, repeat: Infinity, delay: i * DROP_STAGGER_STEP + DROP_STAGGER_DELAY_BASE, ease: 'easeIn' }}
               />
             ))}
           </div>

@@ -4,19 +4,24 @@ import { Clock, Cloud, LayoutGrid, Briefcase, Lightbulb, Share2, Plus } from 'lu
 import { personal, experiences } from '../../constants/personal';
 import { projects } from '../../constants/projects';
 import { toolStack } from '../../constants/tech';
+import { CLOCK_UPDATE_INTERVAL } from '../../constants/animations';
 import { useNavigate } from 'react-router';
+
+const RESUME_NAV_BRANDS_DISPLAY_COUNT = 5;
+const RESUME_HALF_PROJECTS_COUNT = 4;
+const RESUME_FULL_ASPECT_RATIO = '16/7';
 
 function LiveClock() {
   const [time, setTime] = useState('');
   useEffect(() => {
     const update = () => {
-      const t = new Intl.DateTimeFormat('en-US', {
-        hour: '2-digit', minute: '2-digit', hour12: true, timeZone: 'Asia/Kolkata',
+      const t = new Intl.DateTimeFormat(personal.locale, {
+        hour: '2-digit', minute: '2-digit', hour12: true, timeZone: personal.timezone,
       }).format(new Date());
-      setTime(`${t} GMT+5:30`);
+      setTime(`${t} ${personal.timezoneLabel}`);
     };
     update();
-    const id = setInterval(update, 30000);
+    const id = setInterval(update, CLOCK_UPDATE_INTERVAL);
     return () => clearInterval(id);
   }, []);
   return <>{time}</>;
@@ -95,7 +100,7 @@ export default function ResumeView() {
                 {exp.logo}
               </div>
             ))}
-            {toolStack.slice(0, 5).map((tool) => (
+            {toolStack.slice(0, RESUME_NAV_BRANDS_DISPLAY_COUNT).map((tool) => (
               <div key={tool.name} className="w-10 h-10 rounded-xl bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 flex items-center justify-center p-2">
                 <img src={tool.icon} alt={tool.name} className="w-full h-full object-contain" />
               </div>
@@ -116,7 +121,7 @@ export default function ResumeView() {
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">A few select projects I've built and shipped</p>
 
           <div className="grid grid-cols-2 gap-3">
-            {projects.filter(p => p.span === 'half').slice(0, 4).map((project, i) => (
+            {projects.filter(p => p.span === 'half').slice(0, RESUME_HALF_PROJECTS_COUNT).map((project, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 8 }}
@@ -131,7 +136,7 @@ export default function ResumeView() {
                   decoding="async"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
+                <div className="absolute inset-0 bg-linear-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3">
                   <p className="text-xs font-medium text-white leading-snug">{project.title}</p>
                 </div>
               </motion.div>
@@ -145,7 +150,7 @@ export default function ResumeView() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.4 }}
               className="mt-3 rounded-2xl overflow-hidden bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 relative group cursor-pointer"
-              style={{ aspectRatio: '16/7' }}
+              style={{ aspectRatio: RESUME_FULL_ASPECT_RATIO }}
             >
               <img
                 src={project.image}
@@ -159,7 +164,7 @@ export default function ResumeView() {
                   🏆 {project.award}
                 </div>
               )}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+              <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
                 <p className="text-sm font-medium text-white">{project.title}</p>
               </div>
             </motion.div>
