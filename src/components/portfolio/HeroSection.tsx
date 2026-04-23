@@ -5,6 +5,7 @@ import { personal } from '../../constants/personal';
 import { heroRoles } from '../../constants/tech';
 import { locationPhotos, flagUrl } from '../../constants/carousel';
 import SpotifyWidget from './SpotifyWidget';
+import DiscordWidget from './DiscordWidget';
 
 export default function HeroSection() {
   const [roleIndex, setRoleIndex] = useState(0);
@@ -158,9 +159,10 @@ export default function HeroSection() {
           </button>
         </motion.div>
 
-        {/* Spotify widget — starts here, draggable on desktop */}
-        <div className="flex justify-center mt-6 w-full px-4 sm:px-0">
+        {/* Live widgets — draggable on desktop */}
+        <div className="flex flex-wrap justify-center gap-3 mt-6 w-full px-4 sm:px-0">
           <SpotifyWidget />
+          <DiscordWidget />
         </div>
       </motion.div>
 
