@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import { personal } from '../../constants/personal';
@@ -11,6 +12,14 @@ import DiscordWidget from './DiscordWidget';
 export default function HeroSection() {
   const [roleIndex, setRoleIndex] = useState(0);
   const [photoIndex, setPhotoIndex] = useState(0);
+  const [showBurger, setShowBurger] = useState(false);
+  const [burgerKey, setBurgerKey] = useState(0);
+
+  const downloadResume = () => {
+    setBurgerKey(k => k + 1);
+    setShowBurger(true);
+    setTimeout(() => setShowBurger(false), 9900);
+  };
 
   useEffect(() => {
     const t = setInterval(() => setRoleIndex(i => (i + 1) % heroRoles.length), ROLE_CYCLE_INTERVAL);
@@ -146,26 +155,46 @@ export default function HeroSection() {
             Let's work together
           </a>
           <button
-            onClick={() => {
-              const link = document.createElement('a');
-              link.href = '/resume.pdf';
-              link.download = 'resume.pdf';
-              document.body.appendChild(link);
-              link.click();
-              document.body.removeChild(link);
-            }}
+            onClick={downloadResume}
             className="px-7 py-3.5 bg-gray-100 dark:bg-white/10 hover:bg-gray-200 dark:hover:bg-white/20 border border-gray-200 dark:border-white/20 text-gray-900 dark:text-white text-sm font-semibold rounded-full transition-all hover:-translate-y-0.5 cursor-pointer"
           >
             Resume
           </button>
         </motion.div>
 
-        {/* Live widgets — draggable on desktop */}
-        <div className="flex flex-wrap justify-center gap-3 mt-6 w-full px-4 sm:px-0">
+        {/* Widgets: inline on mobile, portalled fixed on desktop (handled inside each widget) */}
+        <div className="flex flex-wrap justify-center gap-3 mt-6 w-full px-4 sm:px-0 xl:hidden">
           <SpotifyWidget />
           <DiscordWidget />
         </div>
       </motion.div>
+
+      {/* Burger meme modal */}
+      {createPortal(
+        <AnimatePresence>
+          {showBurger && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-100 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+              onClick={() => setShowBurger(false)}
+            >
+              <motion.img
+                key={burgerKey}
+                src="/borgir-abdu-rozik.gif"
+                alt="burgir"
+                initial={{ scale: 0.7, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.7, opacity: 0 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+                className="w-[min(380px,90vw)] max-h-[75vh] object-contain rounded-2xl shadow-2xl"
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
 
       {/* Scroll indicator */}
       <motion.div

@@ -17,6 +17,10 @@ export const WIP_SPRING_TRANSITION = {
   delay: 0.6,
 };
 
+export const DRAG_HINT_DURATION_MS = 3000;
+export const WIDGET_FLOAT_AMPLITUDE = -10;
+export const WIDGET_FLOAT_DURATION = 3;
+
 export const WIP_PAINT_CAN_TRANSITION = {
   duration: 2.8,
   repeat: Infinity,

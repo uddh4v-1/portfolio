@@ -1,15 +1,19 @@
-import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { GripHorizontal } from 'lucide-react';
 import { personal } from '../../constants/personal';
 import { DISCORD_REFRESH_INTERVAL } from '../../constants/animations';
-import { DRAG_CONSTRAINTS } from '../../constants/breakpoints';
 import { useWidgetDrag } from '../../hooks/use-widget-drag';
 
 const LANYARD_API = `https://api.lanyard.rest/v1/users/${personal.discordUserId}`;
 const DISCORD_AVATAR_CDN = 'https://cdn.discordapp.com/avatars';
 const DISCORD_AVATAR_SIZE = 64;
 const DISCORD_BRAND_COLOR = '#5865F2';
-const WIDGET_MAX_WIDTH = 'min(320px, calc(100vw - 3rem))';
+const WIDGET_INLINE_MAX_WIDTH = 'min(320px, calc(100vw - 3rem))';
+const WIDGET_FIXED_MAX_WIDTH = '260px';
+const WIDGET_FIXED_RIGHT = 360;
+const WIDGET_FIXED_TOP = '60vh';
 const ACTIVITY_TYPE_PLAYING = 0;
 
 type DiscordUser = {
@@ -49,7 +53,9 @@ const DiscordIcon = () => (
 
 export default function DiscordWidget() {
   const [data, setData] = useState<LanyardData | null | 'loading'>('loading');
+  const [isHovered, setIsHovered] = useState(false);
   const { isDragging, setIsDragging, isMobile } = useWidgetDrag();
+  const viewportRef = useRef(document.documentElement);
 
   useEffect(() => {
     const fetchStatus = () => {
@@ -77,26 +83,50 @@ export default function DiscordWidget() {
   const displayName = d?.discord_user.global_name ?? d?.discord_user.username ?? '';
   const currentActivity = d?.activities.find(a => a.type === ACTIVITY_TYPE_PLAYING);
 
-  return (
+  const widget = (
     <motion.div
       drag={!isMobile}
       dragMomentum={false}
       dragElastic={0.05}
-      dragConstraints={DRAG_CONSTRAINTS}
-      onDragStart={() => setIsDragging(true)}
+      dragConstraints={isMobile ? undefined : viewportRef}
+      onHoverStart={() => setIsHovered(true)}
+      onHoverEnd={() => setIsHovered(false)}
+      onDragStart={() => { setIsDragging(true); setIsHovered(false); }}
       onDragEnd={() => setIsDragging(false)}
       whileDrag={{ scale: 1.04, zIndex: 50 }}
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 1, duration: 0.5 }}
       style={{
+        ...(isMobile ? {
+          maxWidth: WIDGET_INLINE_MAX_WIDTH,
+        } : {
+          position: 'fixed' as const,
+          right: WIDGET_FIXED_RIGHT,
+          top: WIDGET_FIXED_TOP,
+          maxWidth: WIDGET_FIXED_MAX_WIDTH,
+        }),
         cursor: isMobile ? 'default' : isDragging ? 'grabbing' : 'grab',
         userSelect: 'none',
         zIndex: 40,
-        maxWidth: WIDGET_MAX_WIDTH,
       }}
-      className="inline-flex items-center gap-3 px-3 py-2.5 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 shadow-lg"
+      className="relative inline-flex items-center gap-3 px-3 py-2.5 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 shadow-lg"
     >
+      <AnimatePresence>
+        {isHovered && !isMobile && (
+          <motion.div
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 4 }}
+            transition={{ duration: 0.3 }}
+            className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap flex items-center gap-1 text-[10px] text-gray-400 dark:text-gray-500 bg-white dark:bg-white/10 border border-gray-100 dark:border-white/10 px-2.5 py-1 rounded-full shadow-sm pointer-events-none select-none z-50"
+          >
+            <GripHorizontal className="w-3 h-3" />
+            drag me
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Avatar with status dot */}
       <div className="relative shrink-0">
         {isLoading ? (
@@ -156,4 +186,6 @@ export default function DiscordWidget() {
       </div>
     </motion.div>
   );
+
+  return isMobile ? widget : createPortal(widget, document.body);
 }
