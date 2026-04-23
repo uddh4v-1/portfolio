@@ -158,8 +158,10 @@ export default function HeroSection() {
           </button>
         </motion.div>
 
-        {/* Spotify widget — fixed/draggable, floats above page */}
-        <SpotifyWidget />
+        {/* Spotify widget — starts here, draggable on desktop */}
+        <div className="flex justify-center mt-6 w-full px-4 sm:px-0">
+          <SpotifyWidget />
+        </div>
       </motion.div>
 
       {/* Scroll indicator */}
