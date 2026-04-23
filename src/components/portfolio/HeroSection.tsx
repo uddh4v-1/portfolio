@@ -4,6 +4,7 @@ import { ChevronDown } from 'lucide-react';
 import { personal } from '../../constants/personal';
 import { heroRoles } from '../../constants/tech';
 import { locationPhotos, flagUrl } from '../../constants/carousel';
+import SpotifyWidget from './SpotifyWidget';
 
 export default function HeroSection() {
   const [roleIndex, setRoleIndex] = useState(0);
@@ -155,6 +156,16 @@ export default function HeroSection() {
           >
             Resume
           </button>
+        </motion.div>
+
+        {/* Spotify widget */}
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.9, duration: 0.5 }}
+          className="flex justify-center mt-6"
+        >
+          <SpotifyWidget />
         </motion.div>
       </motion.div>
 
