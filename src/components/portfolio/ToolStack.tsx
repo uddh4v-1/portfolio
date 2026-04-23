@@ -15,7 +15,7 @@ function ToolItem({ tool }: { tool: Tool }) {
 }
 
 export default function ToolStack() {
-  const doubled = [...toolStack, ...toolStack];
+  const doubled = [...toolStack, ...toolStack, ...toolStack, ...toolStack];
 
   return (
     <section id="skills" className="py-12 md:py-24 overflow-hidden">
