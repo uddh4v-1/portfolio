@@ -53,8 +53,13 @@ export default function SpotifyWidget() {
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.8, duration: 0.5 }}
-      style={{ cursor: isMobile ? 'default' : isDragging ? 'grabbing' : 'grab', userSelect: 'none', zIndex: 40 }}
-      className="flex items-center gap-3 px-3 py-2.5 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 w-full sm:w-auto sm:max-w-xs shadow-lg"
+      style={{
+        cursor: isMobile ? 'default' : isDragging ? 'grabbing' : 'grab',
+        userSelect: 'none',
+        zIndex: 40,
+        maxWidth: 'min(320px, calc(100vw - 3rem))',
+      }}
+      className="inline-flex items-center gap-3 px-3 py-2.5 rounded-2xl bg-gray-50 dark:bg-white/5 border border-gray-100 dark:border-white/10 shadow-lg"
     >
       {hasTrack && (track as Track).albumArt ? (
         <img src={(track as Track).albumArt!} alt="album" className="w-9 h-9 rounded-lg shrink-0 object-cover" />
